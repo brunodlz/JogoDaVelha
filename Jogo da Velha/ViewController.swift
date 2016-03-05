@@ -24,11 +24,26 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var button: UIButton!
     
+    @IBOutlet weak var reset: UIButton!
+    @IBAction func buttonReset(sender: AnyObject) {
+        
+        var buttonToClear : UIButton!
+        for var index = 0; index < 9; index++ {
+            buttonToClear = view.viewWithTag(index) as! UIButton
+            buttonToClear.setImage(nil, forState: .Normal)
+        }
+        
+        activePlayer = 1
+        state = [0,0,0,0,0,0,0,0,0]
+        
+        self.reset.hidden = true
+    }
+    
     @IBAction func buttonPressed(sender: AnyObject) {
         
         if state[sender.tag] == 0 {
             state[sender.tag] = activePlayer
-            if activePlayer == 1{
+            if activePlayer == 1 {
                 activePlayer = 2
                 sender.setImage(UIImage(named: "ball"), forState: .Normal)
             } else {
@@ -38,34 +53,32 @@ class ViewController: UIViewController {
         }
         
         for combination in winningCombinations {
-            if state[combination[0]] != 0 && state[combination[0]] == state[combination[1]] && state[combination[1]] == state[combination[2]] {
+            if state[combination[0]] != 0 &&
+                state[combination[0]] == state[combination[1]] &&
+                state[combination[1]] == state[combination[2]] {
+                    
                 if state[combination[0]] == 1 {
-                    openAlert("Eu ganhei.\nParabêns.")
+                    openAlert("Eu ganhei.")
                 } else {
-                    openAlert("Você ganhou.\nParabêns.")
+                    openAlert("Você ganhou.")
                 }
+                self.reset.hidden = false
             }
         }
     }
     
     func openAlert(message : String) {
-        let alert = UIAlertController(title: "Fim", message: message, preferredStyle: .Alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: { (UIAlertAction) -> Void in
-            //here reset game.
-        }))
+        let alert = UIAlertController(title: nil, message: message, preferredStyle: .Alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
         presentViewController(alert, animated: true, completion: nil)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
-
-
 }
 
