@@ -65,6 +65,19 @@ class ViewController: UIViewController {
                 self.reset.hidden = false
             }
         }
+        
+        if !self.hasZero() {
+            self.reset.hidden = false
+        }
+    }
+
+    func hasZero() -> Bool {
+        for index in state {
+            if index == 0 {
+                return true
+            }
+        }
+        return false
     }
     
     func openAlert(message : String) {
